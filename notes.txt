@@ -1,0 +1,44 @@
+bigquery db chosen:
+    db: chicago_crime
+        table: crime
+            fields to query:
+                date: The date and time of the criminal incident.
+                primary_type: The main type of crime committed.
+                description: A detailed description of the crime.
+                location_description: The type of location where the crime occurred.
+                arrest: Indicates whether there was an arrest in connection with the crime. Boolean. 
+                district: Police district number associated with the incident. 
+
+mysql own db:
+    db: ver+
+        table: queries
+            fields:
+                id: primary key of the query. system input.
+                name: name of the query. user input.
+                username: username of the user. system input.
+                comment: comment of the query. user input.
+                query: the query. system input.  
+                timestamp: query creation time. it's updated when the query is saved again. system input. 
+                
+creation_table:
+
+    CREATE TABLE saved_queries (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    user VARCHAR(50),
+    comment TEXT,
+    query TEXT,
+    modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE query_comments (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        id_query INT,
+        user VARCHAR(100),
+        comment TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (id_query) REFERENCES saved_queries(id)
+    );
+
+
+                

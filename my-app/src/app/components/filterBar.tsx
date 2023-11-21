@@ -1,5 +1,6 @@
 'use client'
 // pages/Sidebar.tsx
+
 import Link from 'next/link';
 import DateFilter from './dateFilter';
 import { useState } from 'react';
@@ -94,7 +95,7 @@ const FilterBar: React.FC<FilterBarProps> = ({ onDataReceived, onDataReceived_d 
 
       const commentInput = prompt('Ingrese un comentario para el query:');
       if (commentInput !== null) {
-        const usernameInput = JSON.parse(localStorage.getItem('usuario'));
+        const usernameInput = JSON.parse(localStorage.getItem('usuario') || 'Guest');
         if (usernameInput !== null) {
           const queryData = {
             name: nameInput,

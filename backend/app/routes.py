@@ -49,7 +49,7 @@ def execute():
     query = query.rstrip(' AND ')
 
     # Reference the SA
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] ='D:/Python/ver/app/key.json'
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] ='./app/key.json'
 
     # BigQuery client object.
     client = bigquery.Client()
@@ -88,7 +88,7 @@ def primary_types():
                 group by primary_type
             """
     # Reference the SA
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] ='D:/Python/ver/app/key.json'
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] ='./app/key.json'
 
     # BigQuery client object.
     client = bigquery.Client()
@@ -110,7 +110,7 @@ def description_types():
                 group by description
             """
     # Reference the SA
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] ='D:/Python/ver/app/key.json'
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] ='./app/key.json'
 
     # BigQuery client object.
     client = bigquery.Client()
@@ -132,7 +132,7 @@ def location_types():
                 group by location_description
             """
     # Reference the SA
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] ='D:/Python/ver/app/key.json'
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] ='./app/key.json'
 
     # BigQuery client object.
     client = bigquery.Client()
@@ -179,7 +179,7 @@ def execute_year():
     query += f"\n group by year \n order by year"
     print(query)
     # Reference the SA
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] ='D:/Python/ver/app/key.json'
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] ='./app/key.json'
 
     # BigQuery client object.
     client = bigquery.Client()

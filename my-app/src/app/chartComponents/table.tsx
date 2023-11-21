@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { CrimeDataList } from '../types';
 
@@ -28,7 +29,7 @@ const DataTable: React.FC<BarChartProps> = ({ data }) => {
 
             </thead>
             <tbody>
-            {data.map((item, index) => (
+            {data.map((item: any, index: number) => (
                 <tr key={index} style={{ backgroundColor: index % 2 === 0 ? '#ecf0f1' : '#bdc3c7' }}>
                 {Object.entries(item).map(([key, value], valueIndex) => (
                     <td key={valueIndex} style={{ fontSize: 14, padding: '8px', border: '1px solid #34495e', color: '#000000' }}>

@@ -1,5 +1,10 @@
 import GenericFilter from "./filter";
 
+interface TypeFilterProps {
+  selectedLocation: string;
+  onLocationChange: (type: string) => void;
+}
+
 const TypeFilter: React.FC<TypeFilterProps> = ({ selectedLocation, onLocationChange }) => {
   const fetchData = async () => {
     const url = 'http://127.0.0.1:5000/location_types';

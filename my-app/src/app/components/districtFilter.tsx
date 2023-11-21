@@ -1,5 +1,10 @@
 import GenericFilter from "./filter";
 
+interface TypeFilterProps {
+  selectedDistrict: string;
+  onDistrictChange: (type: string) => void;
+}
+
 const TypeFilter: React.FC<TypeFilterProps> = ({ selectedDistrict, onDistrictChange }) => {
   const fetchData = async () => {
     const options = Array.from({ length: 31 }, (_, index) => (index + 1).toString());

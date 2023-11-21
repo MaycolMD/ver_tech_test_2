@@ -1,5 +1,11 @@
 import GenericFilter from "./filter";
 
+interface TypeFilterProps {
+  selectedPrimaryType: string;
+  onPrimaryTypeChange: (type: string) => void;
+}
+
+
 const TypeFilter: React.FC<TypeFilterProps> = ({ selectedPrimaryType, onPrimaryTypeChange }) => {
   const fetchData = async () => {
     const url = 'http://127.0.0.1:5000/primary_types';

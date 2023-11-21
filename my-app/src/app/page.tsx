@@ -107,7 +107,23 @@ export default function Home() {
             Instantly deploy your Next.js site to a shareable URL with Vercel.
           </p>
         </a>
-      </div>
+      <Image
+        src='/descargar.jpg'
+        alt="Dashboard"
+        width={1000}
+        height={760}
+        className='hidden md:block'
+      />
+
+      <Image
+        src='/descargar (1).jpg'
+        alt="Dashboard"
+        width={560}
+        height={620}
+        className='block md:hidden'
+      />
+
+      </div>    
     </main>
   )
 }

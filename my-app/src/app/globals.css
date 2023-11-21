@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+.font-pacifico {
+  font-family: 'Pacifico', cursive;
+}
+
+table {
+  width: 100%;
+  max-width: 100%; /* Para evitar que la tabla sea más ancha que el contenedor */
+  border-collapse: collapse;
+  overflow-x: auto; /* Desplazamiento horizontal */
+}
+
+th, td {
+  padding: 8px;
+  border: 1px solid #34495e;
+}
+
+@media (max-width: 768px) {
+  table {
+    font-size: 14px;
+  }
+
+  /* Puedes ocultar algunas columnas en pantallas más pequeñas */
+  th:nth-child(2), td:nth-child(2) {
+    display: none;
+  }
+}

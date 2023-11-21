@@ -15,10 +15,16 @@ mysql own db:
             fields:
                 id: primary key of the query. system input.
                 name: name of the query. user input.
-                username: username of the user. system input.
+                user: username of the user. system input.
                 comment: comment of the query. user input.
                 query: the query. system input.  
                 timestamp: query creation time. it's updated when the query is saved again. system input. 
+        tables: comments
+                id: primary key of the comment. system input.
+                id_query: query id associated. -
+                user: username of the user. system input.
+                comment: comment of the query. user input.
+                created_at: query creation time. system input. 
                 
 creation_table:
 
@@ -39,6 +45,13 @@ creation_table:
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (id_query) REFERENCES saved_queries(id)
     );
+
+site 1: home
+site 2: query selector
+site 3: query editor
+site 4: query execute
+site 5: query details (comments)
+
 
 
                 

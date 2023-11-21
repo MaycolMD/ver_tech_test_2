@@ -63,7 +63,6 @@ const FilterBar: React.FC<FilterBarProps> = ({ onDataReceived, onDataReceived_d 
       const jsonResponse = await response.json();
 
       const data = JSON.parse(jsonResponse.data);
-      
       const url_d = `http://127.0.0.1:5000/query_year?primary_type=${selectedPrimaryType}&description=${selectedDescription}&location_description=${selectedLocation}&arrest=${selectedArrest}&district=${selectedDistrict}`;
       const response_d = await fetch(url_d, {
         method: 'GET',
@@ -136,52 +135,32 @@ const FilterBar: React.FC<FilterBarProps> = ({ onDataReceived, onDataReceived_d 
   };
 
   return (
-    <div className="bg-gray-800 h-screen text-white w-1/4 p-4 rounded-md shadow-md mt-10 ml-5">
-      <h1 className="text-4xl font-bold mb-4 text-center mt-6 text-purple-800">Filters</h1>
-      <ul className="list-none p-0">
-        <form onSubmit={submit} className="space-y-4">
-          <li>
-            <DateFilter selectedDate={selectedDate} onDateChange={handleDateChange} />
-          </li>
+    <div className="bg-black h-screen text-white w-1/4 p-4">
+      <h1 className="text-2xl font-bold mb-4 text-center mt-6">Filters</h1>
+      <ul>
+      <form onSubmit={submit} >
+        <li>
+          <DateFilter selectedDate={selectedDate} onDateChange={handleDateChange} />
+        </li>
 
-          <li>
-            <PrimaryTypeFilter selectedPrimaryType={selectedPrimaryType} onPrimaryTypeChange={handlePrimaryTypeChange} />
-          </li>
 
-          <li>
-            <DescriptionFilter selectedDescription={selectedDescription} onDescriptionChange={handleDescriptionChange} />
-          </li>
+        <div className="flex justify-center mt-4">
+          <button type="submit" className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded mr-2">
+            Run Query
+          </button>
 
-          <li>
-            <LocationFilter selectedLocation={selectedLocation} onLocationChange={handleLocationChange} />
-          </li>
+          <button
+            type="button"
+            onClick={handleSaveQuery}
+            className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Save Query
+          </button>
+        </div>
 
-          <li>
-            <ArrestFilter selectedArrest={selectedArrest} onArrestChange={handleArrestChange} />
-          </li>
-
-          <li>
-            <DistrictFilter selectedDistrict={selectedDistrict} onDistrictChange={handleDistrictChange} />
-          </li>
-
-          <div className="flex justify-center mt-6 space-x-4">
-            <button type="submit" className="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded">
-              Run Query
-            </button>
-
-            <button
-              type="button"
-              onClick={handleSaveQuery}
-              className="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded"
-            >
-              Save Query
-            </button>
-          </div>
-        </form>
+      </form>
       </ul>
     </div>
-
-  
   );
 };
 

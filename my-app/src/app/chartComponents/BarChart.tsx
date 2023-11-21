@@ -52,16 +52,32 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
       .attr('height', (d) => height - yScale(d.Cuenta) || 0)
       .attr('fill', 'steelblue');
       
-    // Agrega ejes X e Y
+    // Agrega etiquetas de texto en la parte superior de cada barra
+    svg.selectAll('text')
+    .data(data)
+    .enter()
+    .append('text')
+    .attr('x', (d) => xScale(d.year) + xScale.bandwidth() / 2 || 0)
+    .attr('y', (d) => yScale(d.Cuenta) + 5 || 0) // Ajusta la posición vertical
+    .attr('text-anchor', 'middle')
+    .attr('transform', (d) => `rotate(-90 ${xScale(d.year) + xScale.bandwidth() / 2} ${yScale(d.Cuenta)})`)  // Rota las etiquetas verticalmente
+    .style('fill', 'black')
+    .text((d) => d.Cuenta);
+
+    // Agrega ejes X e Y con colores específicos
     svg.append('g')
       .attr('transform', `translate(0,${height})`)
       .call(d3.axisBottom(xScale))
       .selectAll('text')
       .attr('transform', 'rotate(-45)')
-      .style('text-anchor', 'end');
+      .style('text-anchor', 'end')
+      .style('fill', 'black');  // Ajusta el color del texto del eje X
 
     svg.append('g')
-      .call(d3.axisLeft(yScale));
+      .call(d3.axisLeft(yScale))
+      .selectAll('text')
+      .style('fill', 'black');  // Ajusta el color del texto del eje Y
+
   };
 
   return <svg ref={chartRef} width={800} height={400}></svg>;

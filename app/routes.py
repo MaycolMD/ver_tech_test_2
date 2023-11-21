@@ -42,9 +42,95 @@ def execute():
     if district:
         query += f"district = {district} AND "
 
+    if date == "" and primary_type == "" and description == "" and location_description == "" and arrest == "" and district == "": 
+        query = query[: -len(" WHERE ")]
+
     # Remove the final AND
     query = query.rstrip(' AND ')
 
+    # Reference the SA
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] ='D:/Python/ver/app/key.json'
+
+    # BigQuery client object.
+    client = bigquery.Client()
+
+    df_data = client.query(query).result().to_dataframe()
+
+    # Crear un diccionario de mapeo para los nuevos nombres de columna
+    nuevos_nombres = {
+        'unique_key': 'Unique Key',
+        'date': 'Date',
+        'primary_type': 'Primary Type',
+        'description': 'Description',
+        'location_description': 'Location Description',
+        'arrest': 'Arrest',
+        'domestic': 'Domestic',
+        'district': 'District',
+        'latitude': 'Latitude',
+        'longitude': 'Longitude',
+    }
+
+    # Usar el método rename para cambiar los nombres de las columnas
+    df_data.rename(columns=nuevos_nombres, inplace=True)
+
+    df_json = df_data.to_json(orient='records')
+
+    return jsonify({'data': df_json})
+
+# Visual query builder
+@app.route('/primary_types')
+def primary_types():
+
+    # Creation of the Query, with its parameters (other than None)
+    query = """ 
+                SELECT primary_type
+                FROM `bigquery-public-data.chicago_crime.crime`
+                group by primary_type
+            """
+    # Reference the SA
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] ='D:/Python/ver/app/key.json'
+
+    # BigQuery client object.
+    client = bigquery.Client()
+
+    df_data = client.query(query).result().to_dataframe()
+
+    df_json = df_data.to_json(orient='records')
+
+    return jsonify({'data': df_json})
+
+# Visual query builder
+@app.route('/description_types')
+def description_types():
+
+    # Creation of the Query, with its parameters (other than None)
+    query = """ 
+                SELECT description
+                FROM `bigquery-public-data.chicago_crime.crime`
+                group by description
+            """
+    # Reference the SA
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] ='D:/Python/ver/app/key.json'
+
+    # BigQuery client object.
+    client = bigquery.Client()
+
+    df_data = client.query(query).result().to_dataframe()
+
+    df_json = df_data.to_json(orient='records')
+
+    return jsonify({'data': df_json})
+
+# Visual query builder
+@app.route('/location_types')
+def location_types():
+
+    # Creation of the Query, with its parameters (other than None)
+    query = """ 
+                SELECT location_description
+                FROM `bigquery-public-data.chicago_crime.crime`
+                group by location_description
+            """
     # Reference the SA
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] ='D:/Python/ver/app/key.json'
 
@@ -59,7 +145,7 @@ def execute():
 
 # Visual query builder
 @app.route('/query_year')
-def execute_district():
+def execute_year():
 
     user = request.args.get('user')
     # We get the parameters from the URL
@@ -71,9 +157,7 @@ def execute_district():
     district = request.args.get('district')
 
     # Creation of the Query, with its parameters (other than None)
-    query = """SELECT year, count(*) as Cuenta
-            FROM `bigquery-public-data.chicago_crime.crime`
-            """
+    query = """SELECT year, count(*) as Cuenta FROM `bigquery-public-data.chicago_crime.crime` WHERE """
 
     if primary_type:
         query += f"primary_type = '{primary_type}' AND "
@@ -86,10 +170,14 @@ def execute_district():
     if district:
         query += f"district = {district} AND "
 
+    if primary_type == "" and description == "" and location_description == ""  and arrest == "" and district == "":
+        query = query[: -len(" WHERE ")]
+
     # Remove the final AND
     query = query.rstrip(' AND ')
 
     query += f"\n group by year \n order by year"
+    print(query)
     # Reference the SA
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] ='D:/Python/ver/app/key.json'
 
@@ -128,25 +216,46 @@ def load():
         return 'Consulta no encontrada!'
 
 # Save Query With Name, Username, and Comment 
-@app.route('/save_query')
+@app.post('/save_query')
 def create_query():
 
-    user = request.args.get('user')
+    try:
+        # Obtener datos del cuerpo de la solicitud en formato JSON
+        data = request.get_json()
 
-    name = request.args.get('name')
-    comment = request.args.get('comment')
-    query = request.args.get('query')
+        # Aquí puedes hacer lo que necesites con los datos, por ejemplo, almacenarlos en una base de datos
+        # Ejemplo de impresión en la consola
+        print('Datos recibidos:', data)
 
-    nueva_consulta = SavedQuery(
-        name='Consulta Importante',
-        user='MaycolMD',
-        comment='Esta es una consulta interesante',
-        query='SELECT * FROM chicago_crime WHERE district = 1',
-    )
+        user = data['username']
 
-    db.session.add(nueva_consulta)
-    db.session.commit()
-    return 'Consulta creada!'
+        name = data['name']
+        comment = data['comment']
+        query = {
+            'date': data['date'],
+            'primaryType': data['primaryType'],
+            'description': data['description'],
+            'location': data['location'],
+            'arrest': data['arrest'],
+            'district': data['district']
+        }
+
+        nueva_consulta = SavedQuery(
+        name=name,
+        user=user,
+        comment=comment,
+        query=query,
+        )
+
+        db.session.add(nueva_consulta)
+        db.session.commit()
+
+        # Devolver una respuesta
+        return jsonify({'mensaje': 'Query guardado con éxito'})
+    except Exception as e:
+        # Manejar cualquier error
+        print('Error al procesar la solicitud:', str(e))
+        return jsonify({'error': 'Error al procesar la solicitud'}), 500
 
 # Comment on Query
 @app.route('/save_comment')
@@ -178,10 +287,11 @@ def show_saved_queries():
     queries_data = []
     for query in all_queries:
         queries_data.append({
-            'name': query.name,
-            'user': query.user,
-            'comment': query.comment,
-            'query': query.query,
+            'Nombre': query.name,
+            'Usuario': query.user,
+            'Comentario': query.comment,
+            'Query': query.query,
+            'Fecha': query.modified_date
         })
 
     # Devolver los datos en formato JSON

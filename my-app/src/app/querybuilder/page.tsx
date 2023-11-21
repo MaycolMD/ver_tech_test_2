@@ -20,11 +20,20 @@ export default function Page () {
 
     return (
     <div className="flex">
-        <FilterBar onDataReceived={handleDataReceived} onDataReceived_d={handleDataReceived_d}/>
-        <div className="flex-grow p-4">
-            <BarChart data={chartData_d} />
+        <FilterBar onDataReceived={handleDataReceived} onDataReceived_d={handleDataReceived_d} />
+        <div className="flex-grow p-4 flex flex-col items-center">
+          <div className="bg-white p-8 rounded-lg shadow-md mb-4">
+            <h2 className="text-2xl font-bold text-purple-800 mb-4">Bar Chart</h2>
+            <div className="flex items-center justify-center">
+              <BarChart data={chartData_d} />
+            </div>
+          </div>
+          <div className="bg-white p-8 rounded-lg shadow-md">
+            <h2 className="text-2xl font-bold text-purple-800 mb-4">Data Table</h2>
             <DataTable data={chartData} />
+          </div>
         </div>
-    </div>
+      </div>
+      
     )
 }

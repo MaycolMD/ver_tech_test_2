@@ -39,6 +39,6 @@ Cuando hayas terminado de explorar, puedes cerrar sesión haciendo clic en tu no
 Puedes cambiar tu nombre de usuario en la página principal. Ve a "Home" y cambia tu nombre.
 
 ### YouTube link
-Puedes cambiar tu nombre de usuario en la página principal. Ve a "Home" y cambia tu nombre.
 
 https://youtu.be/EExWlQ-TB0s
+https://youtu.be/cMaMWtFzjLM
